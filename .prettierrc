@@ -1,0 +1,9 @@
+{
+    "eslintIntegration": true,
+    "singleQuote": true,
+    "endOfLine": "auto",
+    "semi": false,
+    "vueIndentScriptAndStyle": true,
+    "trailingComma": "none",
+    "bracketSpacing": true
+}

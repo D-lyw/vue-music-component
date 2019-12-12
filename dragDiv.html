@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+        body {
+            width: 100%;
+            height: 1400px;
+        }
+        #dragDiv {
+            position: fixed;
+            width: 40px;
+            height: 100px;
+            background: gray;
+            top: 80%;
+            left: 0px;
+        }
+    </style>
+</head>
+<body>
+    <div id="dragDiv"></div>
+
+    <script>
+        let dragging = false
+        const box = document.getElementById('dragDiv')
+        const body = document.getElementsByTagName('body')[0]
+
+        let clearMove
+
+        let box_x, box_y
+        let mouse_x, mouse_y
+        box.addEventListener('mousedown', (e) => {
+            dragging = true
+            // 记录起始box坐标，鼠标点击坐标
+            box_x = box.offsetLeft
+            box_y = box.offsetTop
+
+            mouse_x = e.clientX
+            mouse_y = e.clientY
+            // 计算两个坐标之间的差值
+            distance_x = box_x - mouse_x
+            distance_y = box_y - mouse_y
+        })
+
+        body.addEventListener('mouseup', (e) => {
+            dragging = false
+        })
+
+
+        body.addEventListener('mousemove', dealMove)
+
+        function dealMove (event) {
+            const movable_x = document.documentElement.clientWidth - box.offsetWidth
+            const movable_y = document.documentElement.clientHeight - box.offsetHeight
+
+            if (dragging) {
+                let new_box_x = event.clientX + distance_x
+                let new_box_y = event.clientY + distance_y
+                new_box_x = Math.min(Math.max(0, new_box_x), movable_x)
+                new_box_y = Math.min(Math.max(0, new_box_y), movable_y)
+                box.style.left = `${new_box_x}px`
+                box.style.top = `${new_box_y}px`
+            }
+
+            if (clearMove) {
+                clearTimeout(clearMove)
+            }
+            clearMove = setTimeout(() => {
+                dragging = false
+            }, 300)
+        }
+    </script>
+</body>
+</html>
